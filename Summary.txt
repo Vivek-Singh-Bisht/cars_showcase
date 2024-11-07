@@ -54,6 +54,16 @@ remember :
 3. and clearly , because of it we can't call api directly, as it is a client-side or we can say fully react-projct,
    we need to use useEffect for API fetching and main states for all the queryies
 
+While deploying if we get build errors due to typescript, and for some reasons we dont want to fix them we can make it ignor from ----> next.config.ts
+const nextConfig: NextConfig = {
+  images: {
+    domains: ['cdn.imagin.studio']
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  }
+};
+
 ***************************************************************************************************************************************
 
 
