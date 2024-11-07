@@ -53,7 +53,7 @@ export interface ShowMoreProps{
     isNext: boolean;
 }
 
-export type SearchParams = {
+export interface SearchParams {
     year?: number;
     fuel?: string;
     limit?: number;
