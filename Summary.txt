@@ -1,0 +1,139 @@
+***************************************************************************************************************************************
+components folder to be created in root level not in app folder
+this is bcoz we only create layouts and pages (routes) in the app folder...as they will work as routes
+we have to make all type all folder in the root itself like types and all other necessary folders
+
+we created index.ts in components folder to import all the components here and export it from here (dont know why) 
+
+By default all components in next.js are server / server-side components ...they are renedered server-side
+but for coponents like button where we have event-handlers like onclick, which are used by clients, next will throw an error when we pass 
+function on onclick that it should be changed to client-components
+
+we should use 'use client' directive at the top of the file of that component to change that to client-component and error will be gone
+we also need to use this directive in the component we are using that component, or we are sending props to it of event handler
+Error will look like : 
+// Functions cannot be passed directly to Client Components unless you explicitly expose it by marking it with "use server". Or maybe you meant to call this function rather than return it.//
+
+While using ImAGE OF next, it necessary to give all props like src alt height and width, otherwise it will give error
+we can also use fill in Image tag if we dont want to use height and width
+and we can gve src = './hero.png', it should always start with forward / otherwise it will throw error
+PRIORITY. You should add the priority property to the image that will be the Largest Contentful Paint (LCP) element for each page. Doing so allows Next.js to specially prioritize the image for loading (e.g. through preload tags or priority hints), leading to a meaningful boost in LCP.
+if we use some random url to show image in src like -------> 'https://cdn.imagin.studio/getimage' it will throw an err like -----> hostname cdn.imagin.studio is not configured in next.config.js
+to resolve it, we have to change next.config.js as
+const nextConfig: NextConfig = {
+  images: {
+    domains: ['cdn.imagin.studio']
+  }
+};
+
+
+Link coming from 'next/link' could be used to link differnt pages in a project for navigation (routing)
+href is important for Link tags
+
+We can create a page asyncronous in next, next allows us to use await and async while defining a page
+
+Every page by default in next is a server side component and hence, we can see no api call for cars which we made n Home component in page.txs
+even we can see a console of cars is rendering in the terminal as it is rendering in the server
+we can change this by 'use client' on top of the file
+in browser, we can see the console but 'server' is written before it ,
+
+to change route we have router.push('newUrl'), router coming from useRouter() hook provided by 'next/navigation'
+
+in NEXT we can et it searchParams in its props automatically, it is a feature of next , we dont need to use anything else to get it searchParams
+
+
+whenever we search an our searchParams changes we notices that, our websites just scroll to top, This is not the bug in our app its
+a bug already raised in github for NEXT v 13.4
+before next<=13.2.4 updating search params was working as intended, client state and scroll position were kept as it is
+
+To solve this bug, we can just change our page as a clienst-side-rendering by----------> 'use client'
+remember : 
+
+1. We cannot get {earchParams} in props when we use 'use client'
+2. We cannot make the page async in this case
+3. and clearly , because of it we can't call api directly, as it is a client-side or we can say fully react-projct,
+   we need to use useEffect for API fetching and main states for all the queryies
+
+***************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+***************************************************************************************************************************************
+Tailwind is utility-first CSS framework which provides utility class, which usees css only
+
+we can write custom classes in global.css and it will be applies to whole prject itself, we can apply that class anywhere in project
+if got some error please look in tailwind.config.ts
+
+.hero {
+  @apply flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
+}
+we can use this @apply to make new custom class out of tailwind classes, where @apply is from tailwind and after cmpiling ot will 
+breakdown all classes put after it in hero class 
+
+we can make responsive classes jus by adding    sm:    infront of tailwing class to apply it for small screens and so on for other screens like
+className='max-w-[1440px]  sm:px-16 px-6 '
+
+object-contain is used as a tailwind class for an image to make it remain in its expect ratio, and not according to screen
+
+we can make copyright sign  inside p tag using &copy;
+
+HEADLESS UI is a completely unstyled, fully accessible UI components, designed to integrate beautifully witl TAILWIND CSS
+it is built over tailwid which means we can give tailwind classes in it and it would work perfectly fine
+install it by ------------> npm i @headlessui/react 
+
+
+***************************************************************************************************************************************
+
+
+
+
+
+
+
+************************************************************************************************************************************
+An interface specifies how a struture should look like ( what variables and values should it have )
+
+we can define the type of setState like this ----------> setManufacturer: (manufacture: string)=>void;
+
+we can define type of evnet handler like onclick like this -------->  MouseEventHandler<HTMLButtonElement>;    where we can get MouseEventHandler from react
+************************************************************************************************************************************
+
+
+
+
+
+
+
+************************************************************************************************************************************
+we should always use ......import Image from 'next/image' for rendering images as it automatically optimizes image rendering than plain html img tag as
+In Next.js, import Image from 'next/image' imports the Image component from Next.js’s built-in next/image module. This Image component offers several optimizations out of the box, making it preferable to using a standard HTML <img> tag in most cases.
+
+Here’s a breakdown of its benefits and features:
+
+Automatic Image Optimization:
+
+Next.js optimizes images on-demand. When you load an image, it automatically serves it in the most efficient format and size for the user’s device.
+It uses the WebP format whenever possible, which can reduce file sizes without compromising quality.
+Responsive Images:
+
+The Image component automatically generates different sizes for various screen widths and uses srcset to serve the most appropriate image size for the user’s device, enhancing both load times and visual quality.
+
+Lazy Loading:
+Images are lazy-loaded by default, meaning they only load when they enter the viewport. This improves performance, especially on pages with many images.
+
+Built-in Placeholder:
+The component offers a placeholder property to show a low-quality placeholder (LQIP) before the full image loads, improving perceived load times and user experience.
+
+Image Caching:
+Next.js’s Image component serves images with caching headers, so images are cached by the browser and/or CDN, reducing load times for repeat visits.
+
+Automatic Resize and Quality Control:
+With properties like width, height, and quality, you can control the image dimensions and quality directly from the component. This reduces the need to preprocess images beforehand.
+************************************************************************************************************************************
